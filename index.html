@@ -94,7 +94,7 @@
               <span>EXPLORE MY WORK</span>
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
-            <a href="assets/vinod_resume.pdf" download="Vinod_Kumar_Balai_Resume.pdf" class="btn-hero-secondary">
+            <a href="./assets/vinod_resume.pdf" download="Vinod_Kumar_Balai_Resume.pdf" class="btn-hero-secondary" id="resumeDownloadBtn">
               <span>DOWNLOAD RESUME</span>
               <i class="fa-solid fa-arrow-down"></i>
             </a>
@@ -116,14 +116,20 @@
 
             <video 
               id="heroMotionVideo"
-              src="assets/hero_video.mp4" 
               autoplay 
               loop 
               muted 
               playsinline 
+              webkit-playsinline
               preload="auto"
               class="hero-video-player"
-            ></video>
+            >
+              <source src="./assets/hero_video.mp4" type="video/mp4">
+              <source src="assets/hero_video.mp4" type="video/mp4">
+              <source src="./hero_video.mp4" type="video/mp4">
+              <source src="./MY VIDEO FOR PF.mp4" type="video/mp4">
+              <source src="./hero_motion_clean.mp4" type="video/mp4">
+            </video>
 
             <!-- Soft dark edge vignette to seamlessly blend video into obsidian theme -->
             <div class="video-ambient-blend"></div>
@@ -218,8 +224,10 @@
 
               <div class="hud-inner-image">
                 <img 
-                  src="assets/vinod_portrait_studio.jpg" 
+                  id="aboutPortraitImg"
+                  src="./assets/vinod_portrait_studio.jpg" 
                   alt="Vinod Kumar Balai - Developer"
+                  onerror="handleImageFallback(this)"
                 />
                 <div class="hud-signature-overlay">
                   <span class="hud-sig-text">Vinod</span>

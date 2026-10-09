@@ -11,6 +11,7 @@
    ========================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHeroVideo();
   initThreeJS3DBackground();
   init3DTiltEngine();
   initMagneticButtons();
@@ -587,3 +588,69 @@ function initSectionStackScaling() {
     });
   }, { passive: true });
 }
+
+/* ================= 11. GITHUB MEDIA RESILIENCE & AUTOPLAY ENGINE ================= */
+window.handleImageFallback = function(img) {
+  const fallbacks = [
+    './vinod_portrait_studio.jpg',
+    './assets/vinod_portrait.jpeg',
+    './vinod_portrait.jpeg',
+    './IMAGE FOR PORTFOLIYO WEBSITE.jpeg',
+    './assets/hero_portrait.jpg',
+    './hero_portrait.jpg'
+  ];
+  let idx = parseInt(img.dataset.fallbackIdx || '0', 10);
+  if (idx < fallbacks.length) {
+    img.dataset.fallbackIdx = (idx + 1).toString();
+    img.src = fallbacks[idx];
+  }
+};
+
+function initHeroVideo() {
+  const video = document.getElementById('heroMotionVideo');
+  if (!video) return;
+
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
+
+  // Attempt video autoplay with user gesture fallback for strict mobile/HTTPS policies
+  const tryPlay = () => {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((e) => {
+        console.warn('Autoplay restricted by browser policy. Awaiting first interaction:', e);
+        const onFirstInteract = () => {
+          video.play().catch(() => {});
+          window.removeEventListener('click', onFirstInteract);
+          window.removeEventListener('touchstart', onFirstInteract);
+          window.removeEventListener('scroll', onFirstInteract);
+        };
+        window.addEventListener('click', onFirstInteract, { passive: true, once: true });
+        window.addEventListener('touchstart', onFirstInteract, { passive: true, once: true });
+        window.addEventListener('scroll', onFirstInteract, { passive: true, once: true });
+      });
+    }
+  };
+
+  if (video.readyState >= 2) {
+    tryPlay();
+  } else {
+    video.addEventListener('loadeddata', tryPlay, { once: true });
+    setTimeout(tryPlay, 400);
+  }
+
+  // Fallback for resume button if assets directory is not found on GitHub
+  const resumeBtn = document.getElementById('resumeDownloadBtn');
+  if (resumeBtn) {
+    const testImg = new Image();
+    testImg.onerror = () => {
+      resumeBtn.setAttribute('href', './vinod_resume.pdf');
+    };
+    testImg.src = './assets/vinod_portrait_studio.jpg';
+  }
+}
+
