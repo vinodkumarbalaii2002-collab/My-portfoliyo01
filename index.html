@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VINOD. // PORTFOLIO</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@600&family=JetBrains+Mono:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-void text-neutral selection-gold">
+
+  <!-- 3D Interactive WebGL Canvas & Ambient Lighting -->
+  <canvas id="webgl-canvas"></canvas>
+  <div class="ambient-glow glow-top"></div>
+  <div class="ambient-glow glow-center"></div>
+  <div class="cyber-grid-overlay"></div>
+
+  <!-- Audio SFX Toggle (Bottom-Right) -->
+  <div class="audio-control-fixed" id="audioToggle" title="Toggle Futuristic Audio FX">
+    <div class="sound-wave-bars">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </div>
+    <span class="audio-text">SFX: OFF</span>
+  </div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar-wrapper">
+    <nav class="nav-container">
+      <a href="#hero" class="brand-logo">
+        <span class="brand-text">VINOD</span>
+        <span class="brand-dot"></span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#about" class="nav-item">ABOUT</a>
+        <a href="#projects" class="nav-item">PROJECTS</a>
+        <a href="#skills" class="nav-item">SKILLS</a>
+        <a href="#experience" class="nav-item">EXPERIENCE</a>
+        <a href="#contact" class="nav-item">CONTACT</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn-talk">
+          <span>LET'S TALK</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+        <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= HERO SECTION ================= -->
+    <section id="hero" class="section hero-section">
+      <div class="hero-container">
+        
+        <!-- Left: Hero Headline & CTA -->
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="title-line text-white">I BUILD</span>
+            <span class="title-line gold-glow-text">DIGITAL</span>
+            <span class="title-line gold-metallic-text">EXPERIENCES</span>
+          </h1>
+
+          <div class="role-tags">
+            <span class="role-item">FULL STACK DEVELOPER</span>
+            <span class="tag-sep">•</span>
+            <span class="role-item">UI/UX DESIGNER</span>
+            <span class="tag-sep">•</span>
+            <span class="role-item">DATA SCIENCE</span>
+          </div>
+
+          <p class="hero-bio">
+            I turn bold ideas into seamless digital experiences.<br class="bio-break">
+            Where frontend meets powerful backend, and code transforms vision into impact.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#projects" class="btn-hero-primary">
+              <span>EXPLORE MY WORK</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <a href="assets/vinod_resume.pdf" download="Vinod_Kumar_Balai_Resume.pdf" class="btn-hero-secondary">
+              <span>DOWNLOAD RESUME</span>
+              <i class="fa-solid fa-arrow-down"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Authentic Studio Spotlight & Freestanding Character Cutout -->
+        <div class="hero-visual">
+          <!-- Spotlight Cone Beam shining from above -->
+          <div class="hero-stage-spotlight"></div>
+          <div class="hero-floor-haze"></div>
+
+          <!-- Hero Cinematic Video Frame (User's Video with 3D Tilt HUD Frame & Glare) -->
+          <div class="hero-video-frame tilt-3d-card" data-tilt-max="14">
+            <div class="hud-corner-bracket top-left"></div>
+            <div class="hud-corner-bracket top-right"></div>
+            <div class="hud-corner-bracket bottom-left"></div>
+            <div class="hud-corner-bracket bottom-right"></div>
+
+            <video 
+              id="heroMotionVideo"
+              src="assets/hero_video.mp4" 
+              autoplay 
+              loop 
+              muted 
+              playsinline 
+              preload="auto"
+              class="hero-video-player"
+            ></video>
+
+            <!-- Soft dark edge vignette to seamlessly blend video into obsidian theme -->
+            <div class="video-ambient-blend"></div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- Floating Quote Text & Signature (Right side, transparent, exact match) -->
+          <div class="floating-quote-badge">
+            <div class="quote-bullet-row">
+              <span class="quote-bullet">•</span>
+              <div class="quote-text">
+                CODE IS MY CRAFT.<br>
+                IMPACT IS MY GOAL.
+              </div>
+            </div>
+            <div class="signature">Vinod</div>
+          </div>
+
+          <!-- Interactive 3D Multi-Axis Gyroscope Code Ring Emblem -->
+          <div class="rotating-emblem" id="gyroEmblem">
+            <div class="emblem-gyro-outer">
+              <svg viewBox="0 0 100 100" class="ring-svg">
+                <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+                <text font-size="8.5" fill="#fbbf24" letter-spacing="2">
+                  <textPath href="#circlePath" startOffset="0%">
+                    * AURA ARCHITECTURE * CRAFTING VALUE
+                  </textPath>
+                </text>
+              </svg>
+            </div>
+            <div class="emblem-gyro-inner"></div>
+            <div class="emblem-core">
+              <span class="code-glyph">&lt;/&gt;</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 01: ABOUT ME ================= -->
+    <section id="about" class="section about-section">
+      <div class="section-container">
+        
+        <div class="about-grid">
+          <!-- Left Text Details -->
+          <div class="about-text-col reveal-3d">
+            <div class="section-tag">
+              <span class="tag-number">01</span>
+              <span class="tag-slash">/</span>
+              <span class="tag-name">ABOUT ME</span>
+            </div>
+
+            <h2 class="section-heading-large">
+              I DON'T JUST WRITE CODE.<br>
+              <span class="gold-gradient-text gold-shimmer-anim">I BUILD WHAT'S NEXT.</span>
+            </h2>
+
+            <p class="about-desc">
+              I'm <strong class="highlight-gold">Vinod Kumar Balai</strong>, a Full Stack Developer and BCA graduate specializing in building scalable web architectures, AI-integrated platforms, and refined digital experiences. With a strong algorithmic foundation and a focus on clean engineering, I turn complex requirements into impactful products.
+            </p>
+
+            <!-- Metrics / Stats Bar (Exact Match to Reference Video) -->
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <div class="metric-value" data-target="1200">0+</div>
+                <div class="metric-label">DSA SOLVED</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value gold-metric" data-target="71" data-suffix="%">0%</div>
+                <div class="metric-label">BCA (MDSU)</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value" data-target="40">0+</div>
+                <div class="metric-label">INDUSTRY-GRADE PROJECTS</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value gold-metric highlight-rank">TOP 100</div>
+                <div class="metric-label">NATIONAL HACKATHON</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Cyber Frame Portrait -->
+          <div class="about-card-col reveal-3d">
+            <div class="hud-profile-frame tilt-3d-card" data-tilt-max="12">
+              <div class="hud-bracket top-left"></div>
+              <div class="hud-bracket top-right"></div>
+              <div class="hud-bracket bottom-left"></div>
+              <div class="hud-bracket bottom-right"></div>
+
+              <div class="hud-inner-image">
+                <img 
+                  src="assets/vinod_portrait_studio.jpg" 
+                  alt="Vinod Kumar Balai - Developer"
+                />
+                <div class="hud-signature-overlay">
+                  <span class="hud-sig-text">Vinod</span>
+                </div>
+              </div>
+              <div class="card-3d-glare"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 02: FEATURED WORK ================= -->
+    <section id="projects" class="section work-section">
+      <div class="section-container">
+        
+        <div class="work-header reveal-3d">
+          <div>
+            <div class="section-tag">
+              <span class="tag-number">02</span>
+              <span class="tag-slash">/</span>
+              <span class="tag-name">FEATURED WORK</span>
+            </div>
+            <h2 class="section-heading-large">
+              SELECTED WORKS.<br>
+              <span class="gold-gradient-text gold-shimmer-anim">ENGINEERED VALUE.</span>
+            </h2>
+          </div>
+          <p class="work-subtitle">
+            Scroll down to unfold the system architecture cards. Each platform was built to solve complex operational challenges with precision engineering.
+          </p>
+        </div>
+
+        <!-- Sticky Overlapping Stack Cards -->
+        <div class="cards-stack-container">
+
+          <!-- PROJECT 01 -->
+          <div class="project-hud-card tilt-3d-card" style="--card-index: 1;" data-tilt-max="10">
+            <div class="card-hud-accent"></div>
+            <div class="card-grid">
+              <!-- Left Details -->
+              <div class="card-left">
+                <div class="card-index-tag">01 // AI / LEGAL-TECH PLATFORM</div>
+                <h3 class="card-title">POLICYGUARD AI</h3>
+                <p class="card-desc">
+                  AI-powered platform engineered for automated privacy policy analysis and legal contract auditing across web, desktop, and mobile. Implements NLP extraction, real-time risk alert detection, and generative risk score intelligence.
+                </p>
+
+                <div class="tech-pills">
+                  <span class="tech-badge">REACT.JS</span>
+                  <span class="tech-badge">REACT NATIVE</span>
+                  <span class="tech-badge">ELECTRON.JS</span>
+                  <span class="tech-badge">NODE.JS</span>
+                  <span class="tech-badge">EXPRESS.JS</span>
+                  <span class="tech-badge">MONGODB ATLAS</span>
+                  <span class="tech-badge">OPENAI API</span>
+                  <span class="tech-badge">PROMPT ENG</span>
+                  <span class="tech-badge">NLP</span>
+                  <span class="tech-badge">DOCKER</span>
+                  <span class="tech-badge">JWT</span>
+                </div>
+              </div>
+
+              <!-- Right Spec HUD Table (Exact Match to Reference Video) -->
+              <div class="card-right">
+                <div class="metrics-table-title">// ARCHITECTURE METRICS</div>
+                <div class="specs-table">
+                  <div class="spec-row">
+                    <span class="spec-label">PLATFORMS</span>
+                    <span class="spec-val">Web, Mobile, Desktop</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">ENGINE</span>
+                    <span class="spec-val">OpenAI NLP / GPT</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">PIPELINE</span>
+                    <span class="spec-val text-gold">Automated Scoring</span>
+                  </div>
+                </div>
+
+                <a href="#contact" class="btn-card-action">
+                  <span>VIEW ON GITHUB</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- PROJECT 02 -->
+          <div class="project-hud-card tilt-3d-card" style="--card-index: 2;" data-tilt-max="10">
+            <div class="card-hud-accent"></div>
+            <div class="card-grid">
+              <div class="card-left">
+                <div class="card-index-tag">02 // MACHINE LEARNING / DEV PLATFORM</div>
+                <h3 class="card-title">SOFTWARE RELEASE RISK HEATMAP</h3>
+                <p class="card-desc">
+                  Full-stack predictive release management platform utilizing machine learning models to forecast deployment risk scores across git commits, pull requests, and multi-service release pipelines.
+                </p>
+
+                <div class="tech-pills">
+                  <span class="tech-badge">REACT.JS</span>
+                  <span class="tech-badge">SCIKIT-LEARN</span>
+                  <span class="tech-badge">PYTHON</span>
+                  <span class="tech-badge">POSTGRESQL</span>
+                  <span class="tech-badge">GITHUB API</span>
+                  <span class="tech-badge">DOCKER</span>
+                </div>
+              </div>
+
+              <div class="card-right">
+                <div class="metrics-table-title">// ARCHITECTURE METRICS</div>
+                <div class="specs-table">
+                  <div class="spec-row">
+                    <span class="spec-label">MODEL</span>
+                    <span class="spec-val">Random Forest</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">ACCURACY</span>
+                    <span class="spec-val text-gold">High Precision</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">PIPELINE</span>
+                    <span class="spec-val">Automated CI/CD Webhooks</span>
+                  </div>
+                </div>
+
+                <a href="#contact" class="btn-card-action">
+                  <span>VIEW ON GITHUB</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- PROJECT 03 -->
+          <div class="project-hud-card tilt-3d-card" style="--card-index: 3;" data-tilt-max="10">
+            <div class="card-hud-accent"></div>
+            <div class="card-grid">
+              <div class="card-left">
+                <div class="card-index-tag">03 // CLOUD / DISTRIBUTED SYSTEM</div>
+                <h3 class="card-title">MULTI-TENANT SAAS PLATFORM</h3>
+                <p class="card-desc">
+                  Enterprise-grade multi-tenant platform built for unified management of teams, projects, and execution lifecycles. Architected with strict tenant data isolation, granular Role-Based Access Control (RBAC), and containerized deployments.
+                </p>
+
+                <div class="tech-pills">
+                  <span class="tech-badge">NODE.JS</span>
+                  <span class="tech-badge">EXPRESS</span>
+                  <span class="tech-badge">POSTGRESQL</span>
+                  <span class="tech-badge">REDIS</span>
+                  <span class="tech-badge">DOCKER</span>
+                  <span class="tech-badge">JWT</span>
+                </div>
+              </div>
+
+              <div class="card-right">
+                <div class="metrics-table-title">// ARCHITECTURE METRICS</div>
+                <div class="specs-table">
+                  <div class="spec-row">
+                    <span class="spec-label">ARCHITECTURE</span>
+                    <span class="spec-val">Multi-Tenant</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">SECURITY</span>
+                    <span class="spec-val text-gold">RBAC Isolation</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">CONTAINERS</span>
+                    <span class="spec-val">Docker Compose</span>
+                  </div>
+                </div>
+
+                <a href="#contact" class="btn-card-action">
+                  <span>VIEW ON GITHUB</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- PROJECT 04 -->
+          <div class="project-hud-card tilt-3d-card" style="--card-index: 4;" data-tilt-max="10">
+            <div class="card-hud-accent"></div>
+            <div class="card-grid">
+              <div class="card-left">
+                <div class="card-index-tag">04 // FINTECH / SYSTEM INFRASTRUCTURE</div>
+                <h3 class="card-title">PAYMENT GATEWAY WITH HOSTED CHECKOUT</h3>
+                <p class="card-desc">
+                  End-to-end hosted payment gateway infrastructure supporting seamless merchant order generation, multi-currency processing, and secure consumer checkout via UPI and Cards with webhook transaction verification.
+                </p>
+
+                <div class="tech-pills">
+                  <span class="tech-badge">NODE.JS</span>
+                  <span class="tech-badge">SPRING BOOT</span>
+                  <span class="tech-badge">POSTGRESQL</span>
+                  <span class="tech-badge">REACT</span>
+                  <span class="tech-badge">DOCKER</span>
+                  <span class="tech-badge">REST APIS</span>
+                  <span class="tech-badge">UPI / CARD INTEGRATIONS</span>
+                </div>
+              </div>
+
+              <div class="card-right">
+                <div class="metrics-table-title">// ARCHITECTURE METRICS</div>
+                <div class="specs-table">
+                  <div class="spec-row">
+                    <span class="spec-label">PROTOCOLS</span>
+                    <span class="spec-val">UPI &amp; Cards</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">BACKEND</span>
+                    <span class="spec-val">Spring Boot • Node</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-label">DATABASE</span>
+                    <span class="spec-val text-gold">ACID PostgreSQL</span>
+                  </div>
+                </div>
+
+                <a href="#contact" class="btn-card-action">
+                  <span>VIEW ON GITHUB</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 03: TECH MATRIX ================= -->
+    <section id="skills" class="section matrix-section">
+      <div class="section-container">
+        
+        <div class="section-tag">
+          <span class="tag-number">03</span>
+          <span class="tag-slash">/</span>
+          <span class="tag-name">TECH MATRIX</span>
+        </div>
+
+        <h2 class="section-heading-large">
+          ARCHITECTURAL MASTERY.<br>
+          <span class="gold-gradient-text gold-shimmer-anim">PRECISION APPLIED.</span>
+        </h2>
+
+        <div class="matrix-grid">
+          <!-- CARD 1 -->
+          <div class="matrix-card tilt-3d-card" data-tilt-max="12">
+            <h3 class="matrix-title">FRONTEND ARCHITECTURE</h3>
+            <p class="matrix-desc">
+              Specialized in building high-performance client applications, custom component libraries, and immersive desktop/mobile interfaces.
+            </p>
+            <div class="matrix-tags">
+              <span class="m-tag">REACT.JS</span>
+              <span class="m-tag">REACT NATIVE</span>
+              <span class="m-tag">TAILWIND CSS</span>
+              <span class="m-tag">ELECTRON.JS</span>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="matrix-card tilt-3d-card" data-tilt-max="12">
+            <h3 class="matrix-title">DISTRIBUTED BACKEND</h3>
+            <p class="matrix-desc">
+              Engineered RESTful APIs, JWT role-based access control, caching layers, and multi-tenant SaaS backend isolation.
+            </p>
+            <div class="matrix-tags">
+              <span class="m-tag">NODE.JS</span>
+              <span class="m-tag">EXPRESS.JS</span>
+              <span class="m-tag">SPRING BOOT</span>
+              <span class="m-tag">DOCKER</span>
+              <span class="m-tag">REDIS</span>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="matrix-card tilt-3d-card" data-tilt-max="12">
+            <div class="matrix-card-header">
+              <span class="hud-category">PERSISTENCE</span>
+              <span class="hud-chip">ACID &amp; NOSQL</span>
+            </div>
+            <h3 class="matrix-title">DATA PLATFORMS</h3>
+            <p class="matrix-desc">
+              Designing resilient relational and document schemas with optimized indexing and transaction isolation.
+            </p>
+            <div class="matrix-tags">
+              <span class="m-tag">MONGODB ATLAS</span>
+              <span class="m-tag">POSTGRESQL</span>
+              <span class="m-tag">MYSQL</span>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+
+          <!-- CARD 4 -->
+          <div class="matrix-card tilt-3d-card" data-tilt-max="12">
+            <div class="matrix-card-header">
+              <span class="hud-category">INTELLIGENCE</span>
+              <span class="hud-chip">1200+ SOLVED</span>
+            </div>
+            <h3 class="matrix-title">ALGORITHMS &amp; MACHINE LEARNING</h3>
+            <p class="matrix-desc">
+              1200+ algorithm problems solved. Applied Random Forest classifiers for real-time risk heatmaps and NLP policy analyzers.
+            </p>
+            <div class="matrix-tags">
+              <span class="m-tag">C++</span>
+              <span class="m-tag">PYTHON</span>
+              <span class="m-tag">JAVA</span>
+              <span class="m-tag">SCIKIT-LEARN</span>
+              <span class="m-tag">OPENAI API</span>
+            </div>
+            <div class="card-3d-glare"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 04: EXPERIENCE & MILESTONES ================= -->
+    <section id="experience" class="section timeline-section">
+      <div class="section-container">
+        
+        <div class="section-tag">
+          <span class="tag-number">04</span>
+          <span class="tag-slash">/</span>
+          <span class="tag-name">EXPERIENCE &amp; MILESTONES</span>
+        </div>
+
+        <h2 class="section-heading-large">
+          EXPERIENCE &amp;<br>
+          <span class="gold-gradient-text gold-shimmer-anim">MILESTONES.</span>
+        </h2>
+
+        <!-- Vertical Glowing Gold Timeline (Exact Match to Reference Video) -->
+        <div class="timeline-container">
+          <div class="timeline-beam"></div>
+
+          <!-- Node 1 -->
+          <div class="timeline-item reveal-3d">
+            <div class="timeline-date">
+              <span class="year-highlight">2024 - PRESENT</span>
+            </div>
+            <div class="timeline-node">
+              <div class="node-glow"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="item-title">FULL STACK &amp; MOBILE INTERN</h3>
+              <div class="item-company">TECH INNOVATIONS LAB</div>
+              <p class="item-desc">
+                Architecting high-performance client platforms, microservices APIs, and responsive mobile interfaces with React Native, Node.js, and modern full-stack workflows.
+              </p>
+            </div>
+          </div>
+
+          <!-- Node 2 -->
+          <div class="timeline-item reveal-3d">
+            <div class="timeline-date">
+              <span class="year-highlight">2023 - 2024</span>
+              <span class="year-sub">NATIONAL MILESTONE</span>
+            </div>
+            <div class="timeline-node">
+              <div class="node-glow"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="item-title">TOP 100 NATIONAL TEAM</h3>
+              <div class="item-company">MYNTRA WEFORSHE HACKERRAMP</div>
+              <p class="item-desc">
+                Ranked among the Top 100 nationwide teams while maintaining Department Topper status (9.07 CGPA / 71% Aggregate).
+              </p>
+            </div>
+          </div>
+
+          <!-- Node 3 -->
+          <div class="timeline-item reveal-3d">
+            <div class="timeline-date">
+              <span class="year-highlight">MAY - JUN 2023</span>
+            </div>
+            <div class="timeline-node">
+              <div class="node-glow"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="item-title">FULL STACK TRAINEE</h3>
+              <div class="item-company">TECHNICAL HUB PVT LTD</div>
+              <p class="item-desc">
+                Trained in modern full-stack architecture, developing and deploying end-to-end interactive responsive web platforms.
+              </p>
+            </div>
+          </div>
+
+          <!-- Node 4 -->
+          <div class="timeline-item reveal-3d">
+            <div class="timeline-date">
+              <span class="year-highlight">2022 - 2025</span>
+            </div>
+            <div class="timeline-node">
+              <div class="node-glow"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="item-title">B.TECH / BCA IN DATA SCIENCE &amp; COMPUTING</h3>
+              <div class="item-company">MDSU UNIVERSITY (71% AGGREGATE)</div>
+              <p class="item-desc">
+                Specializing in Web Engineering and System Design. Solved 1200+ algorithm challenges across LeetCode, CodeChef, and GeeksforGeeks.
+              </p>
+            </div>
+          </div>
+
+          <!-- Node 5 -->
+          <div class="timeline-item reveal-3d">
+            <div class="timeline-date">
+              <span class="year-highlight">2020 - 2022</span>
+            </div>
+            <div class="timeline-node">
+              <div class="node-glow"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="item-title">HIGHER SECONDARY (MPC)</h3>
+              <div class="item-company">SENIOR SECONDARY SCHOOL</div>
+              <p class="item-desc">
+                Completed specialized coursework in Mathematics, Physics, and Computer Science with excellence.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 05: CONTACT ================= -->
+    <section id="contact" class="section contact-section">
+      <div class="section-container">
+        
+        <div class="section-tag">
+          <span class="tag-number">05</span>
+          <span class="tag-slash">/</span>
+          <span class="tag-name">CONTACT</span>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left Info -->
+          <div class="contact-left reveal-3d">
+            <h2 class="section-heading-large">
+              INITIALIZE<br>
+              <span class="gold-gradient-text gold-shimmer-anim">TRANSMISSION.</span>
+            </h2>
+
+            <p class="contact-desc">
+              Have an ambitious system to architect, an engineering opportunity, or a collaborative inquiry? Send a direct dispatch below.
+            </p>
+
+            <div class="contact-channels">
+              <div class="channel-item">
+                <i class="fa-solid fa-envelope channel-icon"></i>
+                <div>
+                  <div class="channel-label">// DIRECT FREQUENCY</div>
+                  <div class="channel-value">vinodsalv2001@gmail.com</div>
+                </div>
+              </div>
+              <div class="channel-item">
+                <i class="fa-solid fa-phone channel-icon"></i>
+                <div>
+                  <div class="channel-label">// TELEPHONE CONTACT</div>
+                  <div class="channel-value">+91 6376883386</div>
+                </div>
+              </div>
+              <div class="channel-item">
+                <i class="fa-solid fa-location-crosshairs channel-icon"></i>
+                <div>
+                  <div class="channel-label">// LOCATION / BASE</div>
+                  <div class="channel-value">Kolikhera, Rajasthan - 311803</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-bar">
+              <a href="https://github.com" target="_blank" class="social-hud-link" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+                <span>GITHUB</span>
+              </a>
+              <a href="https://linkedin.com" target="_blank" class="social-hud-link" title="LinkedIn">
+                <i class="fa-brands fa-linkedin-in"></i>
+                <span>LINKEDIN</span>
+              </a>
+              <a href="https://twitter.com" target="_blank" class="social-hud-link" title="Twitter/X">
+                <i class="fa-brands fa-x-twitter"></i>
+                <span>TWITTER</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right HUD Dispatch Terminal Form (Exact Match to Reference Video) -->
+          <div class="contact-form-col reveal-3d">
+            <div class="hud-terminal-box tilt-3d-card" data-tilt-max="8">
+              <div class="terminal-bar">
+                <div class="term-title">// DISPATCH_TERMINAL.EXE</div>
+                <div class="term-status">PORT 5173 // READY</div>
+              </div>
+
+              <form id="transmissionForm" class="transmission-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="senderName">// SENDER</label>
+                    <input type="text" id="senderName" required placeholder="Enter name" autocomplete="off" />
+                  </div>
+                  <div class="form-group">
+                    <label for="senderChannel">// CHANNEL</label>
+                    <input type="email" id="senderChannel" required placeholder="Enter email" autocomplete="off" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="senderPayload">// PAYLOAD</label>
+                  <textarea id="senderPayload" rows="4" required placeholder="Enter transmission payload..."></textarea>
+                </div>
+
+                <button type="submit" id="submitDispatchBtn" class="btn-execute-dispatch">
+                  <span class="btn-inner-text">EXECUTE DISPATCH</span>
+                  <i class="fa-solid fa-arrow-up"></i>
+                </button>
+              </form>
+
+              <!-- Terminal Live Log Output -->
+              <div id="terminalLog" class="terminal-log">
+                <div class="log-line text-muted">&gt; System initialized. Awaiting user dispatch...</div>
+              </div>
+
+              <div class="card-3d-glare"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="cyber-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="brand-text">VINOD</span>
+        <span class="footer-sub">© 2026 // ALL SYSTEMS OPERATIONAL</span>
+      </div>
+      <div class="footer-right">
+        <a href="#hero" class="back-to-top">
+          TOP <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 3D WebGL Library & Custom Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
